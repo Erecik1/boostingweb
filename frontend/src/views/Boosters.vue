@@ -7,7 +7,7 @@
     <div class="media">
       <div class="media-left">
         <figure class="image is-48x48">
-          <img src="{{ booster.profile_url }}" alt="Boosterimage"/>
+          <img :src='booster.profile_image' alt="Boosterimage"/>
         </figure>
       </div>
       <div class="media-content">
