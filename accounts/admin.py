@@ -17,7 +17,7 @@ class AccountAdmin(UserAdmin):
 class BoosterAdmin(admin.ModelAdmin):
     list_display =  ('account','rank','reviews','orders_done','languages')
     search_fields = ('account',)
-    readonly_fields = ('orders_done',)
+    readonly_fields = ('orders_done','status')
 
     filter_horizontal = ()
     list_filter = ()

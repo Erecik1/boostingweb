@@ -1,8 +1,7 @@
 <template>
     <div class="page-sign-up">
         <div class="columns">
-          <div class="column"></div>
-          <div class="column">
+          <div class="column is-one-third is-offset-one-third">
                 <h1 class="title">Sign up </h1>
                 <form @submit.prevent="submitForm" class="box">
                     <div class="field">
@@ -45,7 +44,6 @@
                     Or <router-link to="/log-in">click here </router-link> to log in!
                 </form>
             </div>
-          <div class="column"></div>
         </div>
     </div>
 </template>

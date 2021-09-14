@@ -7,7 +7,7 @@
 <nav class="navbar is-spaced" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="/">
-      <img src="https://pic.onlinewebfonts.com/svg/img_445058.png" width="112" height="28">
+      <img src="@/assets/BS_biae.png">
     </a>
   </div>
 
@@ -38,9 +38,9 @@
   </section>
 <div style="min-height: 1px;">
 </div>
-  <footer class="footer">
-    <p class="has-text-centered"> This website is not endorsed or in any way affiliated with Activision Inc, Electronic Arts Inc, Valve Corporation, Riot Games Inc, Respawn Entertainment, Bungie, Psyonix Studios or Epic Games and does not reflect the views or opinions of the aforementioned entities or anyone officially involved in producing or managing Overwatch, Fortnite, Call of Duty Franchise, League of Legends, Valorant, Destiny2, World of Warcraft, Rainbow Six Siege, Rocket League, Teamfight Tactics, Dota 2 or Apex Legends. Overwatch, Fortnite, Call of Duty Franchise, League of Legends, Valorant, Destiny2, World of Warcraft, Rainbow Six Siege, Rocket League, Teamfight Tactics, Dota 2 or Apex Legends are trademarks or registered trademarks of the aforementioned entities in the U.S. and/or other countries. All submitted art content remains copyright of its original copyright holder.</p>
-  </footer>
+    <footer class="footer">
+      <p class="has-text-centered">Copyright (c) 2021</p>
+    </footer>
 </div>
 </template>
 <script>

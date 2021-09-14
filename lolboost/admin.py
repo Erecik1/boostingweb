@@ -16,6 +16,3 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Order, OrderAdmin)
-admin.site.register(WinBoosting)
-admin.site.register(PlacementBoosting)
-admin.site.register(DivisionBoosting)

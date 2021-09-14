@@ -4,7 +4,7 @@
     </section>
     <div class="columns is-multiline">
       <div class="column is-12">
-        
+        Jebac disa
       </div>
     </div>
   </div>

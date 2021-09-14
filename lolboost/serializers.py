@@ -1,17 +1,32 @@
 from rest_framework import serializers
 
-from lolboost.models import DivisionBoosting
+from lolboost.models import Order
 
-class DivisionBoostingSerializer(serializers.ModelSerializer):
+
+class OrderSerializer(serializers.ModelSerializer):
     class Meta:
-        model = DivisionBoosting
+        model = Order
         fields = (
-            "order_id",
-            "queue",
-            "start_rank",
-            "start_div",
-            "start_lp",
-            "gain_lp",
-            "end_rank",
-            "end_div",
+            "id",
+            "user",
+            "status",
+            "boosting_type",
+            "time_created",
+            "booster",
+            "order_price",
+            "account_region",
+            "discount",
+            "is_duo",
+            "is_flex",
+            "is_high_priority",
+            "is_role_champion",
+            "is_stream",
+            "promo_code",
+            "wins_to_play",
+            "division_from",
+            "division_to",
+            "league_from",
+            "league_to",
+            "lp_from",
+            "lp_gain",
         )

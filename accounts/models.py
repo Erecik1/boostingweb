@@ -4,8 +4,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.enums import Choices
 
+
 class MyAccountManager(BaseUserManager):
-    
+
     def create_user(self, email, username, password=None):
         if not email:
             raise ValueError("user must have an email address.")
@@ -14,7 +15,7 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            password = password,
+            password=password,
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -24,7 +25,7 @@ class MyAccountManager(BaseUserManager):
         user = self.model(
             email=self.normalize_email(email),
             username=username,
-            password = password
+            password=password
         )
         user.is_admin = True
         user.is_staff = True
@@ -41,7 +42,6 @@ def get_default_profile_image():
     return "default_image/profile_image.png"
 
 
-
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
@@ -53,8 +53,8 @@ class Account(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     hide_email = models.BooleanField(default=True)
-    profile_image = models.ImageField(max_length=255, upload_to=get_default_profile_image, null=True, blank=True, default=get_default_profile_image)
-
+    profile_image = models.ImageField(max_length=255, null=True, blank=True,
+                                      default=get_default_profile_image())
 
     objects = MyAccountManager()
 
@@ -73,29 +73,31 @@ class Account(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
+
 class Booster(models.Model):
     LANGUAGES = (
-        ("EN","English"),
-        ("PL","Polish"),
-        ("KR","Korean"),
+        ("EN", "English"),
+        ("PL", "Polish"),
+        ("KR", "Korean"),
     )
     REGIONS = (
-        ("EUNE","EUNE"),
-        ("EUW","EUW"),
-        ("NA","NA"),
-        ("RU","RU"),
-        ("TR","TR"),
+        ("EUNE", "EUNE"),
+        ("EUW", "EUW"),
+        ("NA", "NA"),
+        ("RU", "RU"),
+        ("TR", "TR"),
     )
-    account = models.ForeignKey(Account,null=False, on_delete=CASCADE, default="")
+
+    account = models.OneToOneField(Account, null=False, on_delete=models.CASCADE)
     about = models.CharField(max_length=512)
-    rank = models.CharField(max_length=30,)
-    roles = models.CharField(max_length=30,)
-    champions = models.CharField(max_length=30,)
+    rank = models.CharField(max_length=30, )
+    roles = models.CharField(max_length=30, )
+    champions = models.CharField(max_length=30, )
     status = models.BooleanField(default=False)
     reviews = models.IntegerField()
     regions = models.CharField(max_length=30, choices=REGIONS)
-    orders_done = models.IntegerField()
-    languages = models.CharField(max_length=30,choices=LANGUAGES)
+    orders_done = models.IntegerField(default=0)
+    languages = models.CharField(max_length=30, choices=LANGUAGES)
 
     def __str__(self):
-        return self.account
+        return str(self.account)

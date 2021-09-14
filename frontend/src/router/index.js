@@ -3,7 +3,7 @@ import Home from '../views/Home.vue'
 
 import SignUp from '../views/Signup.vue'
 import LogIn from '../views/Login.vue'
-
+import Boosters from '../views/Boosters.vue'
 const routes = [
   {
     path: '/',
@@ -23,10 +23,16 @@ const routes = [
     name: 'Signup',
     component: SignUp
   },
+
   {
     path: '/log-in',
     name: 'Login',
     component: LogIn
+  },
+      {
+    path: '/boosters',
+    name: 'Boosters',
+    component: Boosters
   },
 ]
 
