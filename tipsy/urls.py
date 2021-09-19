@@ -18,15 +18,19 @@ from django.urls import path
 from django.urls.conf import include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
+
 
     path('api/v1/', include('djoser.urls')),
-    path('api/v1/', include('djoser.urls.authtoken')),
     path('api/v1/', include('accounts.urls')),
     path('api/v1/', include('lolboost.urls')),
+    path('api/v1/', include('djoser.urls.authtoken')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

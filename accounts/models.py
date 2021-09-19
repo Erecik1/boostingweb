@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.enums import Choices
 
+BASE_URL = "http://127.0.0.1:8000"
 
 class MyAccountManager(BaseUserManager):
 
@@ -67,6 +68,11 @@ class Account(AbstractBaseUser):
     def get_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index(f'profile_images/{self.pk}/'):]
 
+    def get_image(self):
+        if self.profile_image:
+            return BASE_URL + self.profile_image.url
+        return ""
+
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
@@ -94,7 +100,8 @@ class Booster(models.Model):
     roles = models.CharField(max_length=30, )
     champions = models.CharField(max_length=30, )
     status = models.BooleanField(default=False)
-    reviews = models.IntegerField()
+    reviews = models.IntegerField(default=0)
+    reviews_rate = models.IntegerField(default=0)
     regions = models.CharField(max_length=30, choices=REGIONS)
     orders_done = models.IntegerField(default=0)
     languages = models.CharField(max_length=30, choices=LANGUAGES)

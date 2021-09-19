@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from .models import Account, Booster
-import os
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,8 +12,18 @@ class AccountSerializer(serializers.ModelSerializer):
 
 class BoosterSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='account.username')
-    profile_image = serializers.ReadOnlyField(source='account.profile_image.url')
+    profile_image = serializers.ReadOnlyField(source='account.get_image')
 
     class Meta:
         model = Booster
-        fields = "__all__"
+        fields = (
+            "username",
+            "about",
+            "rank",
+            "reviews",
+            "reviews_rate",
+            "regions",
+            "orders_done",
+            "languages",
+            "profile_image",
+        )

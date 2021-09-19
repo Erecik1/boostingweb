@@ -1,5 +1,6 @@
 <template>
-  <div class="column"
+  <div class="columns">
+  <div class="column is-one-third"
        v-for="booster in boostersList"
        v-bind:key="booster.id">
 <div class="card">
@@ -16,7 +17,6 @@
     </div>
 
     <div class="content">
-      <p class="subtitle">BIO:{{ booster.profile_url }}</p>
       <p class="subtitle">BIO:{{ booster.about }}</p>
       <p class="subtitle">Rank:{{ booster.rank }}</p>
       <p class="subtitle">Orders done:{{ booster.orders_done }}</p>
@@ -27,6 +27,7 @@
   </div>
 </div>
   </div>
+    </div>
 </template>
 
 <script>

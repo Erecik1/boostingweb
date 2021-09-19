@@ -14,8 +14,11 @@
                     <div class="field">
                         <label>Password</label>
                         <div class="control">
-                            <input type="password" class="input" v-model="password1">
+                            <input type="password" class="input" v-model="password">
                         </div>
+                    </div>
+                    <div class="notification is-danger" v-if="errors.length">
+                        <p v-for="error in errors" v-bind:key="error">{{error}}</p>
                     </div>
                     
                     <div class="field">
@@ -33,11 +36,46 @@
 
 <script>
 import axios from 'axios'
-import {toast} from 'bulma-toast'
 
 export default {
     name: 'Login',
     data(){
+      return {
+        email:'',
+        password:'',
+        errors:[]
+      }
+    },
+    methods: {
+        async submitForm() {
+            axios.defaults.headers.common["Authorization"] = ""
+            localStorage.removeItem("Token")
+            const formData = {
+                email: this.email,
+                password: this.password
+            }
+            await axios
+                .post("/api/v1/token/login", formData)
+                .then(response => {
+                    const auth_token = response.data.auth_token
+                    this.$store.commit('setToken', auth_token)
+
+                    localStorage.setItem("Token", auth_token)
+                    axios.defaults.headers.common['Authorization'] = 'Token ' + localStorage.getItem('Token')
+                    this.$router.push("/")
+                })
+                .catch(error => {
+                    if (error.response) {
+                        for (const property in error.response.data) {
+                            this.errors.push(`${property}: ${error.response.data[property]}`)
+                        }
+                    } else {
+                        this.errors.push('Something went wrong. Please try again')
+
+                        console.log(JSON.stringify(error))
+                    }
+                })
+        }
     }
 }
 </script>

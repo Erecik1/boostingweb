@@ -9,27 +9,6 @@ from .serializers import BoosterSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-
-def indexView(request):
-    return render(request, 'index.html')
-
-
-def dashboardView(request):
-    return render(request, 'dashboard.html')
-
-
-def registerView(request):
-    if request.method == "POST":
-        form = RegistrationsForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login_url')
-
-    else:
-        form = RegistrationsForm()
-    return render(request, 'registration/register.html', {'form': form})
-
-
 # API
 class BoostersList(APIView):
     def get(self, request, format=None):
