@@ -1,28 +1,29 @@
 <template>
   <div class="columns">
-  <div class="column is-one-third"
+  <div class="column is-narrow"
        v-for="booster in boostersList"
        v-bind:key="booster.id">
 <div class="card">
   <div class="card-content">
     <div class="media">
       <div class="media-left">
-        <figure class="image is-48x48">
-          <img :src='booster.profile_image' alt="Boosterimage"/>
+        <figure class="image is-64x64">
+          <img class="avatar" :src='booster.profile_image' alt="Boosterimage"/>
         </figure>
       </div>
       <div class="media-content">
-        <p class="title is-4 is-black">{{ booster.username }}</p>
+        <p class="title is-4 is-black"><router-link :to='booster.get_absolute_url'>{{ booster.username }}</router-link></p>
       </div>
     </div>
 
     <div class="content">
-      <p class="subtitle">BIO:{{ booster.about }}</p>
-      <p class="subtitle">Rank:{{ booster.rank }}</p>
-      <p class="subtitle">Orders done:{{ booster.orders_done }}</p>
-      <p class="subtitle">Reviews ratio:{{ booster.reviews }}</p>
-      <p class="subtitle">Active:{{ booster.status }}</p>
+      <div v-if="booster.rank === '1'"><img src="@/assets/rank_icons/Emblem_Master.png" alt="rank_emblem" width="180" height="205"></div>
+      <div v-if="booster.rank === '2'"><img src="@/assets/rank_icons/Emblem_Grandmaster.png" alt="rank_emblem" width="180" height="205"></div>
+      <div v-if="booster.rank === '3'"><img src="@/assets/rank_icons/Emblem_Challenger.png" alt="rank_emblem" width="180" height="205"></div>
       <p class="subtitle">Languages:{{ booster.languages }}</p>
+      <p class="subtitle">Orders done:{{ booster.orders_done }}</p>
+      <star-rating :rating="booster.reviews" :read-only="true" :increment="0.1"></star-rating>
+
     </div>
   </div>
 </div>
@@ -32,14 +33,16 @@
 
 <script>
 import axios from 'axios'
+import StarRating from 'vue-star-rating'
 export default {
   name: "Boosters",
-  data(){
-    return{
-      boostersList: []
+  data() {
+    return {
+      boostersList: [],
     }
   },
   components:{
+    StarRating
   },
   beforeMount() {
     this.getBoostersList()
@@ -55,7 +58,7 @@ export default {
       .catch(error =>{
         console.log(error)
       })
-    }
+    },
   }
 }
 </script>
@@ -63,6 +66,12 @@ export default {
 <style scoped>
 p{
   color: black;
+}
+img.avatar {
+  border: 5px solid #555;
+}
+div.card{
+  width: 300px;
 }
 
 </style>

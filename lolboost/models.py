@@ -6,7 +6,7 @@ RANKS = (
     ("B", "Bronze"),
     ("S", "Silver"),
     ("G", "Gold"),
-    ("P", "Platiuim"),
+    ("P", "Platinum"),
     ("D", "Diamond"),
     ("M", "Master"),
 )
@@ -63,20 +63,21 @@ class Order(models.Model):
     status = models.CharField(max_length=10, default="OPEN")
     boosting_type = models.CharField(max_length=10, choices=BOOSTING_TYPE, null=True, default=False)
     time_created = models.DateTimeField(verbose_name="time created", auto_now_add=True)
-    booster = models.ForeignKey(Booster, null=True, on_delete=models.SET("deleted"))
-    order_price = models.IntegerField(default=0, null=False)
-    account_region = models.CharField(max_length=10, choices=REGIONS, null=False)
+    booster = models.ForeignKey(Booster, null=True, on_delete=models.SET("deleted"), blank=True)
+    order_price = models.IntegerField(default=0, null=False, blank=False)
+    account_region = models.CharField(max_length=10, choices=REGIONS, null=False, blank=False)
     discount = models.IntegerField(default=False, null=True)
     is_duo = models.BooleanField(default=False)
     is_flex = models.BooleanField(default=False)
     is_high_priority = models.BooleanField(default=False)
     is_role_champion = models.BooleanField(default=False)
     is_stream = models.BooleanField(default=False)
-    promo_code = models.CharField(max_length=10, null=True, default="")
-    wins_to_play = models.IntegerField(null=True, default=False)
-    division_from = models.CharField(null=True, max_length=10, choices=DIV)
-    division_to = models.CharField(null=True, max_length=10, choices=DIV,)
-    league_from = models.CharField(null=True, choices=RANKS, max_length=10)
-    league_to = models.CharField(null=True, choices=RANKS, max_length=10)
-    lp_from = models.CharField(null=True, choices=STARTING_LP, max_length=10)
-    lp_gain = models.CharField(null=True, max_length=10)
+    promo_code = models.CharField(max_length=10, null=True, default="", blank=True)
+    wins_to_play = models.IntegerField(null=True, default=False, blank=True)
+    division_from = models.CharField(null=True, max_length=10, choices=DIV, blank=True)
+    division_to = models.CharField(null=True, max_length=10, choices=DIV, blank=True)
+    league_from = models.CharField(null=True, choices=RANKS, max_length=10, blank=True)
+    league_to = models.CharField(null=True, choices=RANKS, max_length=10, blank=True)
+    lp_from = models.CharField(null=True, choices=STARTING_LP, max_length=10, blank=True)
+    note = models.CharField(max_length=100, blank=True)
+

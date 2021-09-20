@@ -4,7 +4,10 @@ import store from '../store'
 import SignUp from '../views/Signup.vue'
 import LogIn from '../views/Login.vue'
 import Boosters from '../views/Boosters.vue'
-import Myaccount from "../views/Myaccount";
+import Myaccount from "../views/Myaccount"
+import Order from "../views/Order"
+import Faq from "../views/Faq"
+
 const routes = [
   {
     path: '/',
@@ -16,21 +19,36 @@ const routes = [
     name: 'Signup',
     component: SignUp
   },
-
   {
     path: '/log-in',
     name: 'Login',
     component: LogIn
   },
-      {
+  {
     path: '/boosters',
     name: 'Boosters',
     component: Boosters
   },
+  {
+    path: '/faq',
+    name: 'Faq',
+    component: Faq
+  },
       {
     path: '/my-account',
     name: 'Myaccount',
-    component: Myaccount
+    component: Myaccount,
+    meta: {
+        requireLogin: true
+    }
+  },
+          {
+    path: '/order',
+    name: 'Order',
+    component: Order,
+    meta: {
+        requireLogin: true
+    }
   },
 ]
 

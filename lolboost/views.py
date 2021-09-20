@@ -10,6 +10,9 @@ from lolboost.serializers import OrderSerializer
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework.decorators import permission_classes
+from lolboost.permissions import BoostersReadOnly
 
 class OrderList(APIView):
     def get(self, request, format=None):
@@ -24,8 +27,9 @@ class OrderList(APIView):
             return Response(order_serializer.data, status=status.HTTP_201_CREATED)
         return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@permission_classes([BoostersReadOnly])
 class OrderDetail(APIView):
-    def get_object(self, pk):
+    def get(self, pk):
         try:
             return Order.objects.get(pk=pk)
         except Order.DoesNotExist:

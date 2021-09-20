@@ -23,6 +23,9 @@
       <div class="navbar-item">
         <router-link to="/faq" class="navbar-item">Faq</router-link>
       </div>
+      <div v-if="$store.state.isAuthenticated" class="navbar-item">
+        <router-link to="/order" class="navbar-item">Order</router-link>
+      </div>
     </div>
 
     <div class="navbar-end">

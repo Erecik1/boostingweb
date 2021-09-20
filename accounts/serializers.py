@@ -26,4 +26,5 @@ class BoosterSerializer(serializers.ModelSerializer):
             "orders_done",
             "languages",
             "profile_image",
+            "get_absolute_url",
         )

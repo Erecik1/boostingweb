@@ -6,6 +6,12 @@ from django.db.models.enums import Choices
 
 BASE_URL = "http://127.0.0.1:8000"
 
+Rank = (
+    ("1","Master"),
+    ("2","Grandmaster"),
+    ("3","Challenger"),
+)
+
 class MyAccountManager(BaseUserManager):
 
     def create_user(self, email, username, password=None):
@@ -35,13 +41,11 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
-def get_profile_image_filepath(self, filename):
-    return f"profile_images/{self.pk}/profile_image.png"
-
 def get_default_profile_image():
     return "default_image/profile_image.png"
 
+def user_directory_path(instance, filename):
+    return 'user_{0}/{1}'.format(instance.id, "avatar.png")
 
 class Account(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
@@ -55,6 +59,7 @@ class Account(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     hide_email = models.BooleanField(default=True)
     profile_image = models.ImageField(max_length=255, null=True, blank=True,
+                                      upload_to= user_directory_path,
                                       default=get_default_profile_image())
 
     objects = MyAccountManager()
@@ -76,15 +81,17 @@ class Account(AbstractBaseUser):
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
+
+
     def has_module_perms(self, app_label):
         return True
 
 
 class Booster(models.Model):
     LANGUAGES = (
-        ("EN", "English"),
-        ("PL", "Polish"),
-        ("KR", "Korean"),
+        ("English", "English"),
+        ("Polish", "Polish"),
+        ("Korean", "Korean"),
     )
     REGIONS = (
         ("EUNE", "EUNE"),
@@ -96,7 +103,7 @@ class Booster(models.Model):
 
     account = models.OneToOneField(Account, null=False, on_delete=models.CASCADE)
     about = models.CharField(max_length=512)
-    rank = models.CharField(max_length=30, )
+    rank = models.CharField(max_length=30, choices=Rank)
     roles = models.CharField(max_length=30, )
     champions = models.CharField(max_length=30, )
     status = models.BooleanField(default=False)
@@ -105,6 +112,9 @@ class Booster(models.Model):
     regions = models.CharField(max_length=30, choices=REGIONS)
     orders_done = models.IntegerField(default=0)
     languages = models.CharField(max_length=30, choices=LANGUAGES)
+
+    def get_absolute_url(self):
+        return f'/{self.account.id}'
 
     def __str__(self):
         return str(self.account)
