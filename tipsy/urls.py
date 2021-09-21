@@ -31,6 +31,7 @@ urlpatterns = [
     path('api/v1/', include('accounts.urls')),
     path('api/v1/', include('lolboost.urls')),
     path('api/v1/', include('djoser.urls.authtoken')),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

@@ -2,13 +2,13 @@ from accounts.models import Account, Booster
 from django.db import models
 
 RANKS = (
-    ("I", "Iron"),
-    ("B", "Bronze"),
-    ("S", "Silver"),
-    ("G", "Gold"),
-    ("P", "Platinum"),
-    ("D", "Diamond"),
-    ("M", "Master"),
+    ("Iron", "Iron"),
+    ("Bronze", "Bronze"),
+    ("Silver", "Silver"),
+    ("Gold", "Gold"),
+    ("Platinum", "Platinum"),
+    ("Diamond", "Diamond"),
+    ("Master", "Master"),
 )
 BOOSTING_TYPE = (
     ("1", "DIVISION"),
@@ -22,34 +22,25 @@ BOOSTER_RANK = (
 )
 
 DIV = (
-    ("1", "1"),
-    ("2", "2"),
-    ("3", "3"),
-    ("4", "4"),
+    ("Division 1", "Division 1"),
+    ("Division 2", "Division 2"),
+    ("Division 3", "Division 3"),
+    ("Division 4", "Division 4"),
 )
 REGIONS = (
-    ("1", "EUNE"),
-    ("2", "EUW"),
-    ("3", "NA"),
-    ("4", "RU"),
-    ("5", "TR"),
+    ("EUNE", "EUNE"),
+    ("EUW", "EUW"),
+    ("NA", "NA"),
+    ("RU", "RU"),
+    ("TR", "TR"),
 )
 QUEUE = (
     ("1", "SOLOQ"),
     ("2", "FLEXQ"),
 )
-
-STARTING_LP = (
-    ("1","0-20"),
-    ("2","21-40"),
-    ("3","41-60"),
-    ("4","61-80"),
-    ("5", "81-100"),
-
-)
 FLASH_KEY = (
-    ("1", "D"),
-    ("2", "F"),
+    ("D", "D"),
+    ("F", "F"),
 )
 STATUS = (
     ("PENDING", "PENDING"),
@@ -78,6 +69,9 @@ class Order(models.Model):
     division_to = models.CharField(null=True, max_length=10, choices=DIV, blank=True)
     league_from = models.CharField(null=True, choices=RANKS, max_length=10, blank=True)
     league_to = models.CharField(null=True, choices=RANKS, max_length=10, blank=True)
-    lp_from = models.CharField(null=True, choices=STARTING_LP, max_length=10, blank=True)
+    lp_from = models.CharField(null=True, max_length=10, blank=True)
+    lp_gain = models.CharField(null=True, max_length=5, blank=True)
     note = models.CharField(max_length=100, blank=True)
+    price = models.IntegerField(null=True, default=0)
+    booster_gain = models.IntegerField(null=True, default=0)
 
