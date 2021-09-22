@@ -20,11 +20,8 @@
       <div class="navbar-item">
         <router-link to="/boosters" class="navbar-item">Boosters</router-link>
       </div>
-      <div class="navbar-item">
-        <router-link to="/faq" class="navbar-item">Faq</router-link>
-      </div>
       <div v-if="$store.state.isAuthenticated" class="navbar-item">
-        <router-link to="/order" class="navbar-item">Order</router-link>
+        <router-link to="/order" class="navbar-item" id="btn-grad">Order</router-link>
       </div>
     </div>
 
@@ -92,6 +89,25 @@ export default {
 </script>
 
 <style lang="scss">
+
+#btn-grad {background-image: linear-gradient(to right, #e52d27 0%, #b31217  51%, #e52d27  100%)}
+#btn-grad {
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  display: block;
+}
+
+#btn-grad:hover {
+  background-position: right center; /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
 $title-color: hsl(0, 100%, 100%);
 //$navbar-padding-vertical: 0.3rem;
 $navbar-background-color: rgb(6, 7, 8);

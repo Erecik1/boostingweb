@@ -1,6 +1,7 @@
 <template>
   <div class="columns">
   <div class="column is-one-quarter has-text-centered">
+    <h2 class="title">Current Tier</h2>
       <div><img :src="leagueImage(startTier)" alt="rank_emblem" width="180" height="205"></div>
   <h2 class="subtitle">Tier</h2>
   <div class="select is-link">
@@ -25,7 +26,7 @@
 </div>
   </div>
   <div class="column is-one-quarter has-text-centered">
-
+<h2 class="title">Target Tier</h2>
     <div><img :src="leagueImage(endTier)" alt="rank_emblem" width="180" height="205"></div>
       <h2 class="subtitle">Tier</h2>
     <div class="select is-link">
@@ -88,7 +89,7 @@
       <h2 class="subtitle">Promo code</h2>
       <input class="input" type="text" placeholder="Promo code" maxlength="10">
       <h2 class="subtitle">Order price: $<span>{{price}}</span></h2>
-      <button :onclick="sendOrder">BUY</button>
+      <button :onclick="sendOrder" class="button is-danger is-light">BUY</button>
           <div id="paypal-button-container"></div>
     </div>
 </div>
@@ -124,38 +125,62 @@ export default {
     leagueImage(value) {
       return require('@/assets/rank_icons/Emblem_' + value + '.png')
     },
-    calculateDiv(rank1, div1, rank2, div2) {
-      const rankData = {
-        1: "Iron Division 4",
-        2: "Iron Division 3",
-        3: "Iron Division 2",
-        4: "Iron Division 1",
-        5: "Bronze Division 4",
-        6: "Bronze Division 3",
-        7: "Bronze Division 2",
-        8: "Bronze Division 1",
-        9: "Silver Division 4",
-        10: "Silver Division 3",
-        11: "Silver Division 2",
-        12: "Silver Division 1",
-        13: "Gold Division 4",
-        14: "Gold Division 3",
-        15: "Gold Division 2",
-        16: "Gold Division 1",
-        17: "Platinum Division 4",
-        19: "Platinum Division 3",
-        20: "Platinum Division 2",
-        21: "Platinum Division 1",
-        22: "Diamond Division 4",
-        23: "Diamond Division 3",
-        24: "Diamond Division 2",
-        25: "Diamond Division 1",
-      }
-      startRank = rank1 + div1
-      endRank = rank2 + div2
-      return
-    },
+
     calculatePrice() {
+      const price_tab = [
+    0,
+    17,
+    17,
+    17,
+    31,
+    17,
+    17,
+    17,
+    31,
+    17,
+    17,
+    17,
+    31,
+    19,
+    19,
+    19,
+    33,
+    26,
+    29,
+    31,
+    52,
+    68,
+    82,
+    116,
+    217,]
+
+const rankData = [
+    "Iron Division 4",
+    "Iron Division 3",
+    "Iron Division 2",
+    "Iron Division 1",
+    "Bronze Division 4",
+    "Bronze Division 3",
+    "Bronze Division 2",
+    "Bronze Division 1",
+    "Silver Division 4",
+    "Silver Division 3",
+    "Silver Division 2",
+    "Silver Division 1",
+    "Gold Division 4",
+    "Gold Division 3",
+    "Gold Division 2",
+    "Gold Division 1",
+    "Platinum Division 4",
+    "Platinum Division 3",
+    "Platinum Division 2",
+    "Platinum Division 1",
+    "Diamond Division 4",
+    "Diamond Division 3",
+    "Diamond Division 2",
+    "Diamond Division 1",
+    "Master",
+]
       this.price = 17
       const data = {
         league_from: this.startTier,
@@ -171,6 +196,33 @@ export default {
       }
     let multi = 1
     this.data = data
+      let target_league = "";
+      let starting_league = data.league_from + " " + data.division_from
+      if (data.league_to === 'Master'){ target_league = data.league_to }
+      else { target_league = data.league_to + " " + data.division_to }
+      let count = false
+      let leagues = []
+      let key = 0
+      rankData.every(rank =>{
+        key += 1;
+
+        if(count === true){
+          leagues.push(key);
+        }
+        if(starting_league === rank){
+          count = true;
+        }
+        if(target_league === rank){
+
+          return false;
+        }
+        return true;
+      })
+    this.price = 0
+      leagues.every(league=>{
+        this.price += price_tab[league-1];
+        return true;
+      })
     if (data.is_duo) { multi *= 1.35 }
     if (data.is_high_priority) { multi *= 1.20}
     if (data.isStream) { multi *= 1.10}
@@ -193,14 +245,20 @@ export default {
     }
     this.price *= multi
     this.price = this.price.toFixed(2);
+    console.log(this.price)
+        if(this.price == 0.00){
+      this.price = "You can't get deranked"
+    }
     },
 
     sendOrder() {
-      axios
-          .post('api/v1/orders/', this.data)
-          .catch(error => {
-            console.log(error)
-          })
+      if(this.price !== 0.00) {
+        axios
+            .post('api/v1/orders/', this.data)
+            .catch(error => {
+              console.log(error)
+            })
+      }
     }
   },
 }
@@ -212,4 +270,12 @@ export default {
   width: 20%;
 }
 
+h2.subtitle{
+  margin-bottom: 5px;
+  margin-top: 12px;
+  color: white;
+}
+label.checkbox{
+  margin-right: 20px;
+}
 </style>
